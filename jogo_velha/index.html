@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+  </head>
+  <body>    
+    <input type="text" name="campo1" class="velha" id="campo1" size="1">
+    <input type="text" name="campo2" class="velha" id="campo2" size="1">
+    <input type="text" name="campo3" class="velha" id="campo3" size="1"><br/>
+    <input type="text" name="campo4" class="velha" id="campo4" size="1">
+    <input type="text" name="campo5" class="velha" id="campo5" size="1">
+    <input type="text" name="campo6" class="velha" id="campo6" size="1"><br/>
+    <input type="text" name="campo7" class="velha" id="campo7" size="1">
+    <input type="text" name="campo8" class="velha" id="campo8" size="1">
+    <input type="text" name="campo9" class="velha" id="campo9" size="1">
+    <script>
+      var myDataRef = new Firebase('https://mgsoaresmarcus.firebaseio.com/jogo_velha/');
+      $('.velha').on('keyup',function (e) {
+        //if (e.keyCode == 13) {
+          var name = $(this).val();
+          console.log(myDataRef);
+          myDataRef.push({'dados':''});
+          //myDataRef.dados.push({name: name});
+        //}
+      });
+      myDataRef.on('child_added', function(snapshot) {
+        var message = snapshot.val();
+        //displayChatMessage(message.name);
+      });
+      /*function displayChatMessage(name) {
+        $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
+        $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+      };*/
+    </script>
+  </body>
+</html>
