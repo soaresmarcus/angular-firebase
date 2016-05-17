@@ -2,35 +2,44 @@
   <head>
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    <style>
+    	.campos{
+    		width: 120px;
+    		text-transform: uppercase;
+    	}
+    </style>
   </head>
   <body>    
-    <input type="text" name="campo1" class="velha" id="campo1" size="1">
-    <input type="text" name="campo2" class="velha" id="campo2" size="1">
-    <input type="text" name="campo3" class="velha" id="campo3" size="1"><br/>
-    <input type="text" name="campo4" class="velha" id="campo4" size="1">
-    <input type="text" name="campo5" class="velha" id="campo5" size="1">
-    <input type="text" name="campo6" class="velha" id="campo6" size="1"><br/>
-    <input type="text" name="campo7" class="velha" id="campo7" size="1">
-    <input type="text" name="campo8" class="velha" id="campo8" size="1">
-    <input type="text" name="campo9" class="velha" id="campo9" size="1">
+    <div class="campos">
+	    <input type="text" name="campo1" class="velha" id="campo1" size="1">
+	    <input type="text" name="campo2" class="velha" id="campo2" size="1">
+	    <input type="text" name="campo3" class="velha" id="campo3" size="1">
+	    <input type="text" name="campo4" class="velha" id="campo4" size="1">
+	    <input type="text" name="campo5" class="velha" id="campo5" size="1">
+	    <input type="text" name="campo6" class="velha" id="campo6" size="1">
+	    <input type="text" name="campo7" class="velha" id="campo7" size="1">
+	    <input type="text" name="campo8" class="velha" id="campo8" size="1">
+	    <input type="text" name="campo9" class="velha" id="campo9" size="1">
+    </div>
     <script>
       var myDataRef = new Firebase('https://mgsoaresmarcus.firebaseio.com/jogo_velha/');
       $('.velha').on('keyup',function (e) {
         //if (e.keyCode == 13) {
-          var name = $(this).val();
-          console.log(myDataRef);
-          myDataRef.push({'dados':''});
-          //myDataRef.dados.push({name: name});
+          var valor = $(this).val(),
+          	  campoAtual = $(this).index();
+          
+          myDataRef.child('campos').child(campoAtual).set(valor);
         //}
       });
-      myDataRef.on('child_added', function(snapshot) {
+      myDataRef.on('value', function(snapshot) {
         var message = snapshot.val();
-        //displayChatMessage(message.name);
+        displayMatch(message.campos);
       });
-      /*function displayChatMessage(name) {
-        $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
-        $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
-      };*/
+      function displayMatch(campos) {
+      	$.each(campos, function(i, val){
+      		$('.campos input').eq(i).val(val);
+      	});
+      };
     </script>
   </body>
 </html>
